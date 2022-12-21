@@ -1,14 +1,58 @@
-# Project
+# ElasticFlow Traces
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This repository contains job traces of the 1st party deep learning training workloads in Microsoft's internal ITP clusters.
+The traces are used in "ElasticFlow: An Elastic Serverless Training Platform for Distributed Deep Learning" in ASPLOS '23.
 
-As the maintainer of this project, please make a few updates:
+## Overview
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+### Characteristics
+
+* Duration: 2 months from 2021-03-04 to 2021-05-03
+* Total number of clusters: 10
+* Total number of jobs: 69,351
+* Total GPU horus: 1,632,719.7
+
+### Schema for raw-traces
+
+`data/raw-traces.tar.gz` contains raw trace data collected from ITP clusters.
+There are 10 csv files, each file represents one cluster.
+Detailed descriptions for each column are as follows:
+
+|            Column | Description                                                                        |
+|------------------:|:-----------------------------------------------------------------------------------|
+|          `job_id` | Job unique id, the UUID is re-generated after trace is collected.                  |
+| `submission_time` | Job submission time, relative time in seconds to the beginning of collection time. |
+|        `duration` | Job duration in seconds.                                                           |
+|         `num_gpu` | Number of GPUs requested/used by the job.                                          |
+
+Here's an example for each csv:
+```
+job_id,submission_time,duration,num_gpu
+6b2d9ccc-6279-403c-e1a2-cfe7810d5c57,16566,3890,4
+```
+
+### Schema for elasticflow-traces
+
+`data/elasticflow-traces.tar.gz` contains extra randomly generated data based on raw trace data.
+The traces are actually used in ElasticFlow experiments, 10 csv files are used for simulation and 195job csv is used to run in real testbed.
+Detailed descriptions for each column are as follows:
+
+|            Column | Description                                                                        |
+|------------------:|:-----------------------------------------------------------------------------------|
+|          `job_id` | Job unique id, the UUID is re-generated after trace is collected.                  |
+| `submission_time` | Job submission time, relative time in seconds to the beginning of collection time. |
+|   `num_iteration` | Randomly generated itertion number for the job's training.                         |
+|      `model_name` | Randomly generated model name for the job.                                         |
+|        `deadline` | Generated deadline based on specific rules.                                        |
+|      `batch_size` | Generated batch size for the job's training.                                       |
+|         `num_gpu` | Number of GPUs requested/used by the job.                                          |
+|        `duration` | Job duration in seconds.                                                           |
+
+Here's an example for each csv:
+```
+job_id,submission_time,num_iteration,model_name,deadline,batch_size,num_gpu,duration
+6b2d9ccc-6279-403c-e1a2-cfe7810d5c57,16566,40285,bert,21347,64,4,3890
+```
 
 ## Contributing
 
